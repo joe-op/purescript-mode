@@ -444,10 +444,15 @@ is asked to show extra info for the items matching QUERY.."
   :type 'integer
   :safe 'integerp)
 
+(defvar *purescript-mode-already-suggested-indent-choice* nil)
+
 (defun purescript-mode-suggest-indent-choice ()
   "Ran when the user tries to indent in the buffer but no indentation mode has been selected.
 Brings up the documentation for purescript-mode-hook."
-  (describe-variable 'purescript-mode-hook))
+  (if (not *purescript-mode-already-suggested-indent-choice*)
+      (progn
+	(message "No indentation mode selected.  See more documentation: M-x describe-variable <return> purescript-mode-hook")
+	(setf *purescript-mode-already-suggested-indent-choice* t))))
 
 (defun purescript-mode-format-imports ()
   "Format the imports by aligning and sorting them."
